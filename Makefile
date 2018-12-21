@@ -20,11 +20,15 @@ LDFLAGS = -L$(POCO_DIR)/lib -lPocoUtil -lPocoXML -lPocoJSON -lPocoNet -lPocoFoun
 vpath %.cpp src/
 
 all: $(EXEC)
+	@if [ ! -d bin ]; then \
+		mkdir -p bin; \
+		chmod o+w bin; \
+	fi
+	mv $(OBJS) $(BIN_DIR)/
 	mv $(EXEC) $(BIN_DIR)/
 
 $(EXEC): $(OBJS)
 	g++ -o $@ $(OBJS) $(CFLAGS) $(LDFLAGS)
-	mv $(OBJS) $(BIN_DIR)/
 
 .cpp.o:
 	g++ $(CFLAGS) -c $<
