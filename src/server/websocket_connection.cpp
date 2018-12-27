@@ -101,7 +101,10 @@ void WebSocketConnection::ReplyCore(Poco::Net::WebSocket& ws)
 
     do
     {
-        const std::string& res(m_res_queue.Dequeue("ReplyCore").second);
+        try {
+        //const std::string& res(m_res_queue.Dequeue("ReplyCore").second);
+
+        const std::string res("{\"command\":\"INITID\",\"status\":\"OK\"}");
 
         int res_bytes = res.size();
         const char *res_ptr = &res[0];
@@ -127,6 +130,12 @@ void WebSocketConnection::ReplyCore(Poco::Net::WebSocket& ws)
 #ifdef DEBUG
         m_err_stream << "[WebSocketConnection] " << "[" << m_conn_id << "] " << "Replying to client finished" << std::endl;
 #endif
+
+        }
+
+        catch (...) {
+            m_err_stream << "[WebSocketConnection] Caught an exception in ReplyCore" << std::endl;
+        }
 
         {
             std::unique_lock<std::mutex> lock(m_mutex);

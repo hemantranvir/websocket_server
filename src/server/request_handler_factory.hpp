@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include "websocket_connection.hpp"
+#include "page_connection.hpp"
 
 class RequestHandlerFactory: public Poco::Net::HTTPRequestHandlerFactory
 {

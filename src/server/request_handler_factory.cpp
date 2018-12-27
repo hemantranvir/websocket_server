@@ -50,6 +50,6 @@ Poco::Net::HTTPRequestHandler* RequestHandlerFactory::createRequestHandler(const
     else
     {
         m_err_stream << "[RequestHandlerFactory] " << " Page Request received" << std::endl;
-        return nullptr;
+        return new PageConnection();
     }
 }
