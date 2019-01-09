@@ -1,10 +1,10 @@
 # websocket_server
 A websocket server implementation in C++ using poco libraries
 
-# Extracting poco
+# Extracting boost, poco and gtest
 Go to external directory and run following
 
-$ make poco
+$ make all
 
 # Building binaries
 Run the following command to build the binaries in bin/ directory
@@ -13,4 +13,8 @@ $ make all
 
 Exectute the following command to start the server on localhost:32000
 
-$ ./bin/server
+$ LD_LIBRARY_PATH=../external/poco/lib ./server
+
+Exectute the following command to start the client and connect to server on localhost:32000
+
+$ LD_LIBRARY_PATH=../external/poco/lib IP_ADDR=127.0.0.1 PORT=32000 ./client
