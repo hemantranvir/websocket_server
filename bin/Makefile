@@ -1,8 +1,8 @@
-BIN_DIR = bin
-SRC_SERVER_DIR = src/server
-SRC_CLIENT_DIR = src/client
-POCO_DIR = external/poco
-POCO_DIR = external/gtest-1.8.0
+SRC_SERVER_DIR = ../src/server
+SRC_CLIENT_DIR = ../src/client
+BOOST_DIR = ../external/boost
+POCO_DIR = ../external/poco
+GTEST_DIR = ../external/gtest-1.8.0
 
 SRCS_SERVER = queue.cpp \
 	websocket_connection.cpp \
@@ -27,25 +27,21 @@ EXEC_CLIENT = client
 
 CFLAGS = -g -std=c++11 -I$(SRC_SERVER_DIR)
 
+CFLAGS += -I$(BOOST_DIR)/include/
+
 CFLAGS += -I$(POCO_DIR)/include/
 
 CFLAGS += -I$(GTEST_DIR)/include/
+
+LDFLAGS = -L$(BOOST_DIR)/lib -lboost_date_time  -lboost_system  -lboost_thread
 
 LDFLAGS = -L$(POCO_DIR)/lib -lPocoUtil -lPocoXML -lPocoJSON -lPocoNet -lPocoFoundation
 
 LDFLAGS += -L$(GTEST_DIR)/lib -lgtest  -ldl -lpthread 
 
-vpath %.cpp src/server src/client
+vpath %.cpp ../src/server ../src/client
 
 all: $(EXEC_SERVER) $(EXEC_CLIENT)
-	@if [ ! -d bin ]; then \
-		mkdir -p bin; \
-		chmod o+w bin; \
-	fi
-	mv $(OBJS_SERVER) $(BIN_DIR)/
-	mv $(EXEC_SERVER) $(BIN_DIR)/
-	mv $(OBJS_CLIENT) $(BIN_DIR)/
-	mv $(EXEC_CLIENT) $(BIN_DIR)/
 
 $(EXEC_SERVER): $(OBJS_SERVER)
 	g++ -o $@ $(OBJS_SERVER) $(CFLAGS) $(LDFLAGS)
@@ -57,5 +53,5 @@ $(EXEC_CLIENT): $(OBJS_CLIENT)
 	g++ $(CFLAGS) -c $<
 
 clean:
-	rm -rvf $(BIN_DIR)/*
+	rm -f $(OBJS_SERVER) $(OBJS_CLIENT) *~ $(EXEC_SERVER) $(EXEC_CLIENT)
 
