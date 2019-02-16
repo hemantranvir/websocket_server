@@ -1,6 +1,6 @@
 #include "websocket_connection.hpp"
 
-WebSocketConnection::WebSocketConnection(int conn_id, Queue* req_queue)
+WebSocketConnection::WebSocketConnection(std::string conn_id, Queue* req_queue)
     : m_conn_id(conn_id)
     , m_req_queue(req_queue)
     , m_res_queue()
@@ -10,7 +10,7 @@ WebSocketConnection::WebSocketConnection(int conn_id, Queue* req_queue)
         m_err_stream << "[WebSocketConnection] " << "[" << m_conn_id << "] " << "Registering Response Queue to ctrl manager" << std::endl;
     }
 
-WebSocketConnection::WebSocketConnection(int conn_id, Queue* req_queue, std::ostream& os)
+WebSocketConnection::WebSocketConnection(std::string conn_id, Queue* req_queue, std::ostream& os)
     : m_conn_id(conn_id)
     , m_req_queue(req_queue)
     , m_res_queue(os)
@@ -63,7 +63,7 @@ void WebSocketConnection::handleRequest(Poco::Net::HTTPServerRequest& request, P
                 m_err_stream << "[WebSocketConnection] " << "[" << m_conn_id << "] " << "Frame received" << std::endl;
 #endif
                 const std::string& json(buffer.data());
-                m_req_queue->Enqueue(std::pair<int, std::string> (m_conn_id, json), "ReceiveThread");
+                m_req_queue->Enqueue(std::pair<std::string, std::string> (m_conn_id, json), "ReceiveThread");
             }
         } catch (Poco::Net::WebSocketException& e) {
             switch (e.code()) {

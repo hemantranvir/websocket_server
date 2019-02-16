@@ -7,6 +7,7 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
+#include <functional>
 #include "Poco/Net/HTTPServer.h"
 #include "Poco/Net/HTTPRequestHandler.h"
 #include "Poco/Net/HTTPRequestHandlerFactory.h"
@@ -26,8 +27,8 @@
 class WebSocketConnection: public Poco::Net::HTTPRequestHandler
 {
 public:
-    WebSocketConnection(int conn_id, Queue* req_queue);
-    WebSocketConnection(int conn_id, Queue* req_queue, std::ostream& os);
+    WebSocketConnection(std::string conn_id, Queue* req_queue);
+    WebSocketConnection(std::string conn_id, Queue* req_queue, std::ostream& os);
     ~WebSocketConnection();
     void handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response);
     static void ReplyFunc(void* obj, Poco::Net::WebSocket& ws);
@@ -35,7 +36,7 @@ public:
 private:
     void ReplyCore(Poco::Net::WebSocket& ws);
 
-    int m_conn_id;
+    std::string m_conn_id;
     Queue* m_req_queue;
     Queue m_res_queue;
     std::thread m_reply;

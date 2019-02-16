@@ -25,7 +25,7 @@ Queue::~Queue(void)
     m_err_stream << "[Queue]" << " Queue Dtor called" << std::endl;
 } 
 
-void Queue::Enqueue(const std::pair<int, std::string>& req, std::string caller)
+void Queue::Enqueue(const std::pair<std::string, std::string>& req, std::string caller)
 {
 #ifdef DEBUG
     m_err_stream << "[Queue]" << "[Caller: " << caller << "]" << " Enqueue Called, Req Value: " << req.second << std::endl;
@@ -38,7 +38,7 @@ void Queue::Enqueue(const std::pair<int, std::string>& req, std::string caller)
 #endif
 }
 
-std::pair<int, std::string> Queue::Dequeue(std::string caller)
+std::pair<std::string, std::string> Queue::Dequeue(std::string caller)
 {
 #ifdef DEBUG
     m_err_stream << "[Queue]" << "[Caller: " << caller << "]" << " Dequeue Called" << std::endl;
@@ -55,9 +55,9 @@ std::pair<int, std::string> Queue::Dequeue(std::string caller)
 #endif
     }
 
-    if (m_queue.empty() && m_exit) return std::pair<int, std::string> (-1, "");
+    if (m_queue.empty() && m_exit) return std::pair<std::string, std::string> ("", "");
 
-    std::pair<int, std::string> val = m_queue.front();
+    std::pair<std::string, std::string> val = m_queue.front();
 #ifdef DEBUG
     m_err_stream << "[Queue]" << "[Caller: " << caller << "]"<< " Deque value: " << val.second << std::endl;
 #endif

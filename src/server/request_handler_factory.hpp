@@ -19,7 +19,6 @@ private:
     void Finalize(void);
 
     Queue m_req_queue;
-    int m_conn_id;
     std::ofstream m_null_stream;
     std::ostream& m_err_stream;
 };

@@ -2,7 +2,6 @@
 
 RequestHandlerFactory::RequestHandlerFactory(std::ostream& os)
     : m_req_queue()
-    , m_conn_id(0)
     , m_err_stream(os)
 {
 }
@@ -36,10 +35,10 @@ Poco::Net::HTTPRequestHandler* RequestHandlerFactory::createRequestHandler(const
 
     if(request.find("Upgrade") != request.end() && Poco::icompare(request["Upgrade"], "websocket") == 0 && Poco::ThreadPool::defaultPool().available() > 0)
     {
-        m_err_stream << "[RequestHandlerFactory] " << "[" << m_conn_id << "] " << "Creating WebSocketConnection Instance" << std::endl;
-        WebSocketConnection* connection = new WebSocketConnection(m_conn_id, &m_req_queue, m_err_stream);
-        m_err_stream << "[RequestHandlerFactory] " << "[" << m_conn_id << "] " << "WebSocketConnection Instance Created" << std::endl;
-        m_conn_id++;
+        std::string conn_id = request.clientAddress().toString();
+        m_err_stream << "[RequestHandlerFactory] " << "[" << conn_id << "] " << "Creating WebSocketConnection Instance" << std::endl;
+        WebSocketConnection* connection = new WebSocketConnection(conn_id, &m_req_queue, m_err_stream);
+        m_err_stream << "[RequestHandlerFactory] " << "[" << conn_id << "] " << "WebSocketConnection Instance Created" << std::endl;
         return connection;
     }
     else if (request.find("Upgrade") != request.end() && Poco::icompare(request["Upgrade"], "websocket") == 0 && Poco::ThreadPool::defaultPool().available() == 0)

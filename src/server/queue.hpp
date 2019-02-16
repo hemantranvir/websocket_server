@@ -16,13 +16,13 @@ public:
     Queue(std::ostream& os);
     ~Queue();
 
-    void Enqueue(const std::pair<int, std::string>& req, std::string caller);
-    std::pair<int, std::string> Dequeue(std::string caller);
+    void Enqueue(const std::pair<std::string, std::string>& req, std::string caller);
+    std::pair<std::string, std::string> Dequeue(std::string caller);
     bool Empty();
     void Exit();
 
 private:
-    std::queue<std::pair<int, std::string>> m_queue;
+    std::queue<std::pair<std::string, std::string>> m_queue;
     std::mutex m_mutex;
     std::condition_variable m_cond; 
     bool m_exit;
