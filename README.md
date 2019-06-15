@@ -1,12 +1,12 @@
 # websocket_server
 A websocket server implementation in C++ using poco libraries
 
-# Extracting boost, poco and gtest
+## Extracting boost, poco and gtest
 Go to external directory and run following
 
 $ make all
 
-# Building binaries
+## Building binaries
 - Run the following command to build the binaries in bin/ directory
 
 $ make all
